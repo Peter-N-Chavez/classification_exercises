@@ -44,6 +44,7 @@ def new_iris_df():
                          FROM species \
                          JOIN measurements \
                             USING(species_id); ''', url_iris)
+    return query
 
 def get_iris_data():
     filename = "iris.csv"
