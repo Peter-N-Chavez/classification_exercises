@@ -15,7 +15,7 @@ from sklearn.model_selection import train_test_split
 def cat_vis(train, col, target):
 
     sns.barplot(x = col, y = target, data = train)
-    target_rate = train[target].count().mean()
+    target_rate = train[target].mean()
     plt.axhline(target_rate, label = target)
     plt.legend()
     plt.show()
@@ -24,8 +24,8 @@ def cat_test(train, col, target):
     
 
     α = 0.05
-    null_hyp = col, " and ", target, " are independent."
-    alt_hyp = "There appears to be a relationship between ", target, " and ", col, "."
+    null_hyp = col + " and " + target + " are independent."
+    alt_hyp = "There appears to be a relationship between " + target + " and " + col + "."
     observed = pd.crosstab(train[target], train[col])
     chi2, p, degf, expected = stats.chi2_contingency(observed)
     if p < α:
