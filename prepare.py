@@ -5,7 +5,9 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import seaborn as sns
 import os
-import acquire
+from sklearn.model_selection import train_test_split
+from sklearn.impute import SimpleImputer
+from acquire import *
 
 def prep_iris(df):
 
@@ -62,15 +64,12 @@ def prep_telco(telco):
 
 def prep_split(df, target):
     
-    train, test = train_test_split(df, test_size=.2, random_state=269, stratify=df[target])
-    train, validate = train_test_split(train, test_size=.25, random_state=269, stratify=train[target])
+    train, test = train_test_split(df, test_size=.2, random_state=269, 
+    stratify = df[target])
+    train, validate = train_test_split(train, test_size=.25, random_state=269, stratify = train[target])
     
     return train, validate, test
 
-
-
-# 
-# 
 #  Run the function in your notebook on the Iris dataset, returning 3 datasets,
 # 
 # 

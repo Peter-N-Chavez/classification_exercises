@@ -6,6 +6,8 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import seaborn as sns
 from pydataset import data
+from sklearn.model_selection import train_test_split
+from sklearn.impute import SimpleImputer
 import os
 
 
