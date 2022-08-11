@@ -16,13 +16,12 @@ def cat_vis(train, col, target):
 
     sns.barplot(x = col, y = target, data = train)
     target_rate = train[target].mean()
-    plt.axhline(target_rate, label = target)
+    plt.axhline(target_rate, label = "average " + target + " rate")
     plt.legend()
     plt.show()
     
 def cat_test(train, col, target):
     
-
     α = 0.05
     null_hyp = col + " and " + target + " are independent."
     alt_hyp = "There appears to be a relationship between " + target + " and " + col + "."
@@ -36,6 +35,17 @@ def cat_test(train, col, target):
         print("There appears to be no relationship between ", target, "and ", col, ".")
 
 def cat_analysis(train, col, target):
+
     cat_vis(train, col, target)
     cat_test(train, col, target)
 
+def dtypes_to_list(df):
+
+    type_list = []
+    for column in df:
+        col_type =  df[column].dtype
+        type_list.append(col_type)
+
+    for types in type_list:
+        return list(df.column[type == types])
+         
