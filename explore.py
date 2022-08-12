@@ -41,11 +41,28 @@ def cat_analysis(train, col, target):
 
 def dtypes_to_list(df):
 
-    type_list = []
-    for column in df:
-        col_type =  df[column].dtype
-        type_list.append(col_type)
+    num_type_list = []
+    cat_type_list = []
 
-    for types in type_list:
-        return list(df.column[type == types])
+    for column in df:
+
+        col_type =  df[column].dtype
+
+        if col_type == "object" : 
+        
+            cat_type_list.append([column, col_type])
+    
+        if col_type in ["int64", "uint8"] and \
+             ((df[column].max() + 1) / df[column].nunique())  == 1 :
+
+            cat_type_list.append([column, col_type])
+
+        if col_type in ["float64", "int64", "uint8"] and \
+            ((df[column].max() + 1) / df[column].nunique()) != 1 :
+
+            num_type_list.append([column, col_type])
+
+    return "num_vars = ", num_type_list, "cat_vars = ", cat_type_list
+
+    
          

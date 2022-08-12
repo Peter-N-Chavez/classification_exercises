@@ -29,33 +29,42 @@ def prep_tit(titanic):
 
 
 def prep_telco(telco):
-    telco = telco.drop(columns=['internet_service_type_id', 'contract_type_id', 'payment_type_id'])
 
-    telco['gender_encoded'] = telco.gender.map({'Female': 1, 'Male': 0})
-    telco['partner_encoded'] = telco.partner.map({'Yes': 1, 'No': 0})
-    telco['dependents_encoded'] = telco.dependents.map({'Yes': 1, 'No': 0})
-    telco['phone_service_encoded'] = telco.phone_service.map({'Yes': 1, 'No': 0})
-    telco['paperless_billing_encoded'] = telco.paperless_billing.map({'Yes': 1, 'No': 0})
-    telco['churn_encoded'] = telco.churn.map({'Yes': 1, 'No': 0})
-    
-    dummy_df = pd.get_dummies(telco[['multiple_lines', \
-                              'online_security', \
-                              'online_backup', \
-                              'device_protection', \
-                              'tech_support', \
-                              'streaming_tv', \
-                              'streaming_movies', \
-                              'contract_type', \
-                              'internet_service_type', \
-                              'payment_type'
-                            ]],
-                              drop_first=True)
-    telco = pd.concat( [telco, dummy_df], axis=1 )
-    
+    telco = get_telco_data()
+
+    telco = telco.drop(columns=["internet_service_type_id", "contract_type_id", "payment_type_id"])
+
+    telco["gender_encoded"] = telco.gender.map({"Female": 1, "Male": 0})
+    telco["partner_encoded"] = telco.partner.map({"Yes": 1, "No": 0})
+    telco["dependents_encoded"] = telco.dependents.map({"Yes": 1, "No": 0})
+    telco["phone_service_encoded"] = telco.phone_service.map(\
+                                                                {"Yes": 1, "No": 0})
+    telco["paperless_billing_encoded"] = telco.paperless_billing.map(\
+                                                                {"Yes": 1, "No": 0})
+    telco["churn_encoded"] = telco.churn.map({"Yes": 1, "No": 0})
+    telco["total_charges"] = telco.total_charges.str.replace(" ", "0").\
+                                        str.replace("$", "").\
+                                        str.replace(",", "_").\
+                                        str.replace("'", "").\
+                                        astype(float)
+
+    dummy_df = pd.get_dummies(telco[["multiple_lines", \
+                            "online_security", \
+                            "online_backup", \
+                            "device_protection", \
+                            "tech_support", \
+                            "streaming_tv", \
+                            "streaming_movies", \
+                            "contract_type", \
+                            "internet_service_type", \
+                            "payment_type"
+                        ]],
+                            drop_first=True)
+    telco = pd.concat([telco, dummy_df], axis=1)
     return telco
     
 # Split your data
-# #
+# 
 # 
 # 
 #  Write a function to split your data into train, test and validate datasets. Addthis function to prepare.py.
@@ -74,14 +83,14 @@ def prep_split(df, target):
 # 
 # 
 #  train_iris, validate_iris and test_iris.
-# #
+# 
 # 
 # 
 #  Run the function on the Titanic dataset, returning 3 datasets, train_titanic,
 # 
 # 
 #  validate_titanic and test_titanic.
-# #
+# 
 # 
 # 
 #  Run the function on the Telco dataset, returning 3 datasets, train_telco,
