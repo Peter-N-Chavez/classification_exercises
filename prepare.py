@@ -42,10 +42,11 @@ def prep_telco(telco):
     telco["paperless_billing_encoded"] = telco.paperless_billing.map(\
                                                                 {"Yes": 1, "No": 0})
     telco["churn_encoded"] = telco.churn.map({"Yes": 1, "No": 0})
-    telco["total_charges"] = telco.total_charges.str.replace(" ", "0").\
-                                        str.replace("$", "").\
-                                        str.replace(",", "_").\
-                                        str.replace("'", "").\
+    telco["total_charges"] = telco.total_charges.str.replace(" ", "0", 
+                                                                regex = True).\
+                                        str.replace("$", "", regex = True).\
+                                        str.replace(",", "_", regex = True).\
+                                        str.replace("'", "", regex = True).\
                                         astype(float)
 
     dummy_df = pd.get_dummies(telco[["multiple_lines", \
