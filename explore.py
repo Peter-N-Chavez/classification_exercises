@@ -37,18 +37,31 @@ def dtypes_to_list(df):
 
 def cat_vis(train, cat_type_list):
 
-    # sns.barplot(x = col, y = target, data = train)
-    # target_rate = train[target].mean()
-    # plt.axhline(target_rate, label = "average " + target + " rate")
-    # plt.legend()
-    # plt.show()
-    for col in cat_type_list:
+    sns.set_theme(style="whitegrid")
 
-        print(col)
-        print(train[col].value_counts())
-        print(train[col].value_counts(normalize = True) * 100)
-        sns.countplot(x=col, data=train)
-        plt.show()
+    df = train
+
+    used_columns = cat_type_list
+    df = df.loc[:, used_columns]
+
+    df.columns = df.columns.map(" ".join)
+
+    corr_mat = df.corr().stack().reset_index(name="correlation")
+
+    g = sns.relplot(
+        data=corr_mat,
+        x="level_0", y="level_1", hue="correlation", size="correlation",
+        palette="vlag", hue_norm=(-1, 1), edgecolor=".7",
+        height=12, sizes=(100, 250), size_norm=(-.2, .8),
+    )
+
+    g.set(xlabel="", ylabel="", aspect="equal")
+    g.despine(left=True, bottom=True)
+    g.ax.margins(.02)
+    for label in g.ax.get_xticklabels():
+        label.set_rotation(90)
+    for artist in g.legend.legendHandles:
+        artist.set_edgecolor(".7")
     
 def cat_test(train, target, cat_type_list):
     
@@ -56,15 +69,15 @@ def cat_test(train, target, cat_type_list):
 
         α = 0.05
         null_hyp = col + " and " + target + " are independent."
-        alt_hyp = "There appears to be a relationship between " + target + " and " + col + ".\n"
+        alt_hyp = "There appears to be a relationship between " + target + " and " + col + "."
         observed = pd.crosstab(train[target], train[col])
         chi2, p, degf, expected = stats.chi2_contingency(observed)
         if p < α:
             print("We reject the null hypothesis that", null_hyp)
-            print(alt_hyp)
+            print(alt_hyp, end = "\n")
         else:
             print("We fail to reject the null hypothesis that", null_hyp)
-            print("There appears to be no relationship between ", target, "and ", col, ".\n")
+            print("There appears to be no relationship between ", target, "and ", col, ".", end = "\n")
 
 def cat_analysis(train, target, cat_type_list):
 

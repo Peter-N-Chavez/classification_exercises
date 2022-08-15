@@ -65,10 +65,8 @@ def prep_telco(telco):
     return telco
     
 # Split your data
-# 
-# 
-# 
-#  Write a function to split your data into train, test and validate datasets. Addthis function to prepare.py.
+
+#  Write a function to split your data into train, test and validate datasets.
 
 
 
@@ -79,23 +77,4 @@ def prep_split(df, target):
     train, validate = train_test_split(train, test_size=.25, random_state=269, stratify = train[target])
     
     return train, validate, test
-
-#  Run the function in your notebook on the Iris dataset, returning 3 datasets,
-# 
-# 
-#  train_iris, validate_iris and test_iris.
-# 
-# 
-# 
-#  Run the function on the Titanic dataset, returning 3 datasets, train_titanic,
-# 
-# 
-#  validate_titanic and test_titanic.
-# 
-# 
-# 
-#  Run the function on the Telco dataset, returning 3 datasets, train_telco,
-# 
-# 
-#  validate_telco and test_telco.
 
