@@ -74,10 +74,12 @@ def cat_test(train, target, cat_type_list):
         chi2, p, degf, expected = stats.chi2_contingency(observed)
         if p < α:
             print("We reject the null hypothesis that", null_hyp)
-            print(alt_hyp, end = "\n")
+            print(alt_hyp)
+            print()
         else:
             print("We fail to reject the null hypothesis that", null_hyp)
-            print("There appears to be no relationship between ", target, "and ", col, ".", end = "\n")
+            print("There appears to be no relationship between ", target, "and ", col, ".")
+            print()
 
 def cat_analysis(train, target, cat_type_list):
 
