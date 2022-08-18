@@ -20,8 +20,9 @@ def prep_iris(df):
 
 
 def prep_tit(titanic):
-    titanic = titanic.drop(columns=['embarked','class', 'age','deck'])
+    titanic = titanic.drop(columns=['embarked','class','deck'])
     dummy_df = pd.get_dummies(data=titanic[['sex','embark_town']], drop_first=True)
+    titanic = titanic.drop(columns = ["sex"])
     titanic = pd.concat([titanic, dummy_df], axis=1)
     
     return titanic
@@ -78,3 +79,7 @@ def prep_split(df, target):
     
     return train, validate, test
 
+def impute_col_nan(df, column, strat):
+    imp_col = SimpleImputer(missing_values= np.nan, strategy=(strat))
+    df[[column]] = imp_col.fit_transform(df[[column]])
+    return df
